@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>socket.io</title>
+   </head>
+   <body>
+      <h1>ola mundo</h1>
+      <form id="form" action="">
+         <input id="mensagem" autocomplete="off" type="text" placeholder="digite uma mensagem"/>
+         <button>enviar</button>
+      </form>
+      <ul></ul>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+         const socket = io();
+         const input = document.getElementById("mensagem");
+         const form = document.getElementById("form");
+         window.addEventListener("keyPressed", e=>{
+            
+         })
+         form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const message = input.value;
+            if (message) {
+               socket.emit("message", message);
+               input.value = "";
+            }
+         });
+         socket.on("mensagens", (messages) => {
+            const ul = document.querySelector("ul");
+            ul.innerHTML = '';
+            messages.forEach(e => {
+               const li = document.createElement("li");
+               li.innerText = `mensagem recebida: ${e}`
+               ul.appendChild(li);
+            });
+         });
+      </script>
+   </body>
+</html>
